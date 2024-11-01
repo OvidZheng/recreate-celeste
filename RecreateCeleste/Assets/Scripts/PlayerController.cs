@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f; // 移动速度
     public float jumpForce = 10f; // 跳跃力度
+    public float slideSpeed = 4f;
+    
     public LayerMask groundLayer; // 地面层
+    public LayerMask wallLayer;
+    
+    public float wallDetectRange = 0.2f;
+    public float wallDetectHoriOffset = 0.2f;
     
     public float fallGravityMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
 
     public bool isOnWall;
-    private bool isGrounded; // 是否在地面上
+    public bool isGrounded; // 是否在地面上
+    
     
     private Rigidbody2D rb;
     private Collider2D coll;
@@ -23,9 +31,24 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        StatusDetect();
         Move(); // 控制左右移动
         Jump(); // 控制跳跃
+        Wallslide();
         FineTune();
+    }
+    
+    private void FixedUpdate()
+    {
+        StatusDetect();
+    }
+
+    private void StatusDetect()
+    {
+        isOnWall = Physics2D.OverlapCircle((Vector2)transform.position + Vector2.right * wallDetectHoriOffset, wallDetectRange, wallLayer)
+            || Physics2D.OverlapCircle((Vector2)transform.position - Vector2.right * wallDetectHoriOffset, wallDetectRange, wallLayer);
+        // 使用射线检测是否与地面层接触，更新 isGrounded
+        isGrounded = Physics2D.IsTouchingLayers(coll, groundLayer);
     }
 
     private void FineTune()
@@ -56,9 +79,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Wallslide()
     {
-        // 使用射线检测是否与地面层接触，更新 isGrounded
-        isGrounded = Physics2D.IsTouchingLayers(coll, groundLayer);
+        if (!isGrounded && isOnWall)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -slideSpeed);
+        }
+
     }
+
+
 }
