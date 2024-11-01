@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f; // 移动速度
     public float jumpForce = 10f; // 跳跃力度
     public float slideSpeed = 4f;
+    public float wallClimbSpeed = 2f;
     
     public LayerMask groundLayer; // 地面层
     public LayerMask wallLayer;
@@ -81,9 +82,15 @@ public class PlayerController : MonoBehaviour
 
     private void Wallslide()
     {
-        if (!isGrounded && isOnWall)
+        float yInput = Input.GetAxis("Vertical");
+        
+        if (!isGrounded && isOnWall && !Input.GetKey(KeyCode.LeftShift))
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -slideSpeed);
+        }
+        else if (!isGrounded && isOnWall && Input.GetKey(KeyCode.LeftShift))
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, yInput * wallClimbSpeed);
         }
 
     }
