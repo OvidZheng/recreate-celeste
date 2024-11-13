@@ -489,21 +489,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ad094bf21962b478d51070bf59eb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 7
-  slideSpeed: 2.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   wallLayer:
     serializedVersion: 2
     m_Bits: 1024
+  moveSpeed: 5
+  jumpForce: 7
+  slideSpeed: 2.5
+  wallClimbSpeed: 4
+  wallJumpHoriSpeed: 5
   wallDetectRange: 0.2
   wallDetectHoriOffset: 0.5
   fallGravityMultiplier: 2.5
   lowJumpMultiplier: 2
+  jumpUndetectTime: 0.5
+  isJumpable: 0
+  isOnLeftWall: 0
+  isJumping: 0
   isOnWall: 0
   isGrounded: 0
+  isPassStatusCheck: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
