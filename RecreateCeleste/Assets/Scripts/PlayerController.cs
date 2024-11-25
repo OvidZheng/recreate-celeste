@@ -99,19 +99,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Jump");
             
-            if (isOnWall && isOnLeftWall)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x + wallJumpHoriSpeed, jumpForce);
-            }
-            else if (isOnWall && !isOnLeftWall)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x - wallJumpHoriSpeed, jumpForce);
-            }
-            else
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            }
-            Debug.Log(rb.linearVelocity);
+
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
 
             
             isGrounded = false; // 跳跃后设置为不在地面上
